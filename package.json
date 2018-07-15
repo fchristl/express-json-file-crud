@@ -1,0 +1,25 @@
+{
+  "name": "express-json-file-crud",
+  "version": "0.0.1",
+  "description": "An Express middleware that lets you store arbitrary objects in JSON files and perform CRUD operations on them.",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node test.js",
+    "build-and-start": "npm run build && npm start",
+    "prepublish": "npm build"
+  },
+  "keywords": [
+    "express",
+    "crud",
+    "json"
+  ],
+  "author": "Felix Christl",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "express": "^4.16.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.16.0"
+  }
+}

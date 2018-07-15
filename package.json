@@ -1,7 +1,7 @@
 {
   "name": "express-json-file-crud",
   "version": "0.0.1",
-  "description": "An Express middleware that lets you store arbitrary objects in JSON files and perform CRUD operations on them.",
+  "description": "An Express module that lets you store arbitrary objects in JSON files and perform CRUD operations on them.",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",

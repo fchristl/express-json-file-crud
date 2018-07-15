@@ -1,7 +1,11 @@
 {
   "name": "express-json-file-crud",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "An Express module that lets you store arbitrary objects in JSON files and perform CRUD operations on them.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fchristl/express-json-file-crud"
+  },
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",

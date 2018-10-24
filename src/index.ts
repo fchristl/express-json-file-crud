@@ -119,7 +119,7 @@ export function makeCrud(entityName: string, storagePath: string): Router {
             return;
         }
         entities.splice(index, 1, obj);
-        res.status(200).send();
+        res.status(200).send(obj);
         storeEntitiesToStorage(entities, entityName, storagePath, () => {});
     });
 

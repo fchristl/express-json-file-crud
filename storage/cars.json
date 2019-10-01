@@ -1,1 +1,14 @@
-[{"name":"Felix","lastName":"Christl","My great ID":525,"id":0},{"name":"Felix","lastName":"Christl","My great ID":525,"id":1},{"name":"Felix","lastName":"Christl","My great ID":525,"id":2},{"name":"Felix","lastName":"Christl","My great ID":525,"id":3},{"name":"Felix","lastName":"Christl","My great ID":525,"id":4},{"name":"Felix","lastName":"Christl","My great ID":525,"id":5},{"name":"Felix","lastName":"Christl","My great ID":525,"id":6}]
+[
+  {
+    "id": 0,
+    "make": "Mercedes"
+  },
+  {
+    "id": 1,
+    "make": "BMW"
+  },
+  {
+    "id": 2,
+    "make": "Ford"
+  }
+]

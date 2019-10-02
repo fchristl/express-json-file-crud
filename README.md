@@ -2,7 +2,12 @@ This package helps to quickly setup a CRUD REST service using Express:
 You can create, read, update and delete objects using REST.
 
 It stores data in plain JSON files. No database is required, which makes
-setup rapid compared to similar solutions.
+setup rapid compared to similar solutions, and therefore perfectly suitable
+for quickly prototyping solutions.
+
+This package should probably not be used for productive applications, as
+the underlying JSON-file-based storage engine is very basic and not a
+replacement for a proper database.
 
 ## Setup
 
@@ -48,7 +53,7 @@ be used.
 POST and PUT need to contain a request header `Content-Type: application/json`
 to work properly.
 
-For example, co create a new car, you can call
+For example, to create a new car, you can call
 
     POST /cars
 

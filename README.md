@@ -25,9 +25,8 @@ Then mount a CRUD route under any endpoint, e.g.:
 * `storagePath`: The (relative or absolute) path to a directory where
   one file per entity will be stored.
 
-All entities will be stored in `[storagePath]/[entityName].json`. The
-directory `storagePath` needs to exist. The individual
-`[entityName].json` files will be created if they don't exist.
+All entities will be stored in `[storagePath]/[entityName].json`. The individual
+`[entityName].json` files and storagePath will be created if they don't exist.
 
 ## IDs
 Objects are identified by a numeric ID. When an object is created that

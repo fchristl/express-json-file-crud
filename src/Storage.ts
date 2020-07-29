@@ -22,5 +22,6 @@ export interface Storage<T> {
 
     delete(entity: T): Promise<void>;
 
+    exists(id: number): Promise<boolean>;
 
 }

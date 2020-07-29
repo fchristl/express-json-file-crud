@@ -51,6 +51,12 @@ describe('CRUD via REST', () => {
             .send();
         expect(deleteResult.status).to.equal(200);
         expect((await request(app).get('/car').send()).body).to.have.lengthOf(0);
+
+        const postResultWithId = await request(app)
+          .post('/car')
+          .send({...car, id: 42});
+        expect(postResultWithId.status).to.equal(201);
+        expect({...postResultWithId.body}).to.deep.equal({...car, id: 42});
     });
 
     it('should give 404 codes for operations on non-existing entities', async () => {
@@ -68,11 +74,10 @@ describe('CRUD via REST', () => {
             .delete('/car/12345')
             .send({});
         expect(deleteResult.status).to.equal(404);
-
-
     });
 
     afterEach(() => {
         fs.unlinkSync('./test/car.json');
+        fs.rmdirSync('./test/');
     });
 });

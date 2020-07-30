@@ -1,5 +1,6 @@
 import {Storage} from './Storage';
 import * as fs from 'fs';
+import * as path from 'path';
 
 /**
  * A {@link Storage} implementation that stores data in-memory and in a JSON file.
@@ -26,19 +27,26 @@ export class StorageImpl<T extends { id: number }> implements Storage<T> {
 
     private ensureStorageIsSetUp(): Promise<void> {
         return new Promise((resolve, reject) => {
-            fs.readdir(this.fullStoragePath, (err, files) => {
-                if (err != null && err.errno === -2) {
-                    console.log('Storage not set up for this entity. Generating storage directory and file.');
-                    fs.writeFile(this.fullStoragePath, JSON.stringify([]), (err) => {
-                        if (err) {
-                            console.error('Error creating storage file:');
-                            console.error(err);
-                            reject(err);
-                            return;
-                        }
-                        resolve();
-                    });
-                } else {
+            const dirName = this.fullStoragePath.split('/')[1];
+            const dirPath = path.join(__dirname, '..', dirName);
+            fs.access(this.fullStoragePath, (err) => {
+                if (err) {
+                    try {
+                        console.log('Storage not set up for this entity. Generating storage directory and file.');
+                        fs.mkdirSync(dirPath);
+                    }catch(e) {
+                        // do nothing
+                    }finally{
+                        fs.writeFile(this.fullStoragePath, JSON.stringify([]), (er) => {
+                            if (er) {
+                                console.error('Error creating storage file:');
+                                console.error(er);
+                                reject(er);
+                            }
+                            resolve();
+                        });
+                    }
+                }else {
                     resolve();
                 }
             });
@@ -77,7 +85,9 @@ export class StorageImpl<T extends { id: number }> implements Storage<T> {
     }
 
     async create(entity: T): Promise<T> {
-        entity.id = this.createNextEntityId();
+        if ((entity.id && await this.exists(entity.id)) || !entity.id) {
+            entity.id = this.createNextEntityId();
+        }
         this.entities.push(entity);
         await this.storeAllToStorage();
         return entity;
@@ -120,6 +130,11 @@ export class StorageImpl<T extends { id: number }> implements Storage<T> {
         }
         this.entities.splice(currentIndex, 1);
         await this.storeAllToStorage();
+    }
+
+    async exists(id: number): Promise<boolean> {
+        const entity = await this.get(id);
+        return !!entity;
     }
 
 

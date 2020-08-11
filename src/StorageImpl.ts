@@ -25,32 +25,28 @@ export class StorageImpl<T extends { id: number }> implements Storage<T> {
         return `${storagePath}/${entityName}.json`;
     }
 
-    private ensureStorageIsSetUp(): Promise<void> {
-        return new Promise((resolve, reject) => {
-            const dirName = this.fullStoragePath.split('/')[1];
-            const dirPath = path.join(__dirname, '..', dirName);
-            fs.access(this.fullStoragePath, (err) => {
-                if (err) {
-                    try {
-                        console.log('Storage not set up for this entity. Generating storage directory and file.');
-                        fs.mkdirSync(dirPath);
-                    }catch(e) {
-                        // do nothing
-                    }finally{
-                        fs.writeFile(this.fullStoragePath, JSON.stringify([]), (er) => {
-                            if (er) {
-                                console.error('Error creating storage file:');
-                                console.error(er);
-                                reject(er);
-                            }
-                            resolve();
-                        });
-                    }
-                }else {
-                    resolve();
-                }
-            });
-        });
+    private ensureStorageIsSetUp(): void {
+        if (!fs.existsSync(this.fullStoragePath)) {
+            this.createStorageDirectory();
+            this.createStorageFile();
+        }
+    }
+
+    private createStorageDirectory() {
+        const storagePathParts = path.parse(path.resolve(this.fullStoragePath));
+        const storageDirectoryPath = path.join(storagePathParts.dir);
+        if (!fs.existsSync(storageDirectoryPath)) {
+            fs.mkdirSync(storageDirectoryPath, {recursive: true});
+        }
+    }
+
+    private createStorageFile() {
+        try {
+            fs.writeFileSync(this.fullStoragePath, JSON.stringify([]));
+        } catch (err) {
+            console.error('Error creating storage file:');
+            console.error(err);
+        }
     }
 
     private async loadAllFromStorage(): Promise<void> {

@@ -2,15 +2,20 @@ import {Storage} from './Storage';
 import {StorageImpl} from './StorageImpl';
 import {expect} from 'chai';
 import * as fs from 'fs';
+import * as path from 'path';
 
 describe('Storage', () => {
+
+    const storagePath = './test';
     let storage: Storage<any>;
 
     before(async () => {
-        fs.mkdir('./test', () => {
-        });
         storage = new StorageImpl();
-        await storage.init('entity', './test');
+        await storage.init('entity', storagePath);
+    });
+
+    it('should create the storage directory if it does not exist', () => {
+        expect(fs.statSync(storagePath).isDirectory()).to.be.true;
     });
 
 
@@ -71,6 +76,7 @@ describe('Storage', () => {
     });
 
     after(() => {
-        fs.unlinkSync('./test/entity.json');
+        fs.unlinkSync(path.join(storagePath, 'entity.json'));
+        fs.rmdirSync(storagePath);
     });
 });
